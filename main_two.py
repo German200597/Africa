@@ -1,15 +1,18 @@
-import json  
 from pprint import pprint
 import operator
-with open('newsafr.json', encoding='utf-8') as f:
-    data = json.load(f)
-# pprint((data['rss']['channel']['items'][0]))  
+import xml.etree.ElementTree as ET
+parser = ET.XMLParser(encoding='utf-8')
+tree=ET.parse('newsafr.xml', parser)
+root = tree.getroot()
 
-new_data = data['rss']['channel']['items']
-# pprint(new_data)
+
+new_data = root.findall('channel/item')
+# print(len(new_data))
 counter = {}
 for new in new_data:
-    news=list(new['description'].split())
+    finder = new.find('description')
+    text = finder.text
+    news=list(text.split())
     count=0
     for word in news: 
         if len(word)>6:
@@ -25,18 +28,3 @@ for i in result:
     count+=1
     if count<=10:
         print(i[0])
-
-
-
-    
-
-
-
-
-
-
-
- 
-
-
-    

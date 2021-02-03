@@ -10,34 +10,44 @@ def reader(address):
 
 data_from_file=reader('newsafr.json')
 
-def sorter(data_from_file, number):
+def sorter(data_from_file, number_of_letters):
     counter = {}
     for new in data_from_file:
         news=list(new['description'].split())
-        count=0
         for word in news: 
-            if len(word)>number:
+            if len(word) > number_of_letters:
                 if word in counter:
-                    count+=1
-                    counter[word] = int(count)
+                    counter[word] = counter[word] + 1
                 else:
-                    count=1
-                    counter[word] = count                
+                    counter[word] = 1
+                                   
     result=sorted(counter.items(), key=operator.itemgetter(1), reverse=True) 
     return result
 
 data_from_file_two=sorter(data_from_file, 6)
 
-def top(data_from_file_two):    
-    count=0 
+def top(data_from_file_two, number_of_top_words):    
+    count = 0 
     for i in data_from_file_two:
-        count+=1
-        if count<=10:
-            return i[0]
+        count +=  1
+        if count <= number_of_top_words:
+            print(i[0])
 
 reader('newsafr.json')            
 sorter(data_from_file, 6)    
-top(data_from_file_two)        
+top(data_from_file_two, 10)   
+
+
+
+
+        # for word in news: 
+        #     if len(word) > max_number_of_letters:
+        #         if word in counter:
+        #             count += 1
+        #             counter[word] = int(count)
+        #         else:
+        #             count = 1
+        #             counter[word] = count 
 
 
 
